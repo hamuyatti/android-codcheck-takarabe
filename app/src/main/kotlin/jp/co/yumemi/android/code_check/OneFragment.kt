@@ -40,10 +40,6 @@ class OneFragment : Fragment(R.layout.fragment_one) {
             }
         })
 
-        viewModel.repositoryList.observe(viewLifecycleOwner){
-            adapter.submitList(it)
-        }
-
         binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
                 if (action == KeyEvent.ACTION_DOWN) return@setOnEditorActionListener false
@@ -66,6 +62,15 @@ class OneFragment : Fragment(R.layout.fragment_one) {
             it.layoutManager = layoutManager
             it.addItemDecoration(dividerItemDecoration)
             it.adapter = adapter
+        }
+
+        viewModel.errorLD.observe(viewLifecycleOwner) {
+            if (it) {
+                showDialog(getString(R.string.if_error_when_search))
+            }
+        }
+        viewModel.repositoryList.observe(viewLifecycleOwner){
+            adapter.submitList(it)
         }
     }
 
