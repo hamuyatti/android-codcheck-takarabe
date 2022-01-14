@@ -23,7 +23,7 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class OneViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val application: Application
 ) : ViewModel() {
 
@@ -31,8 +31,8 @@ class OneViewModel @Inject constructor(
     val lastSearchDate: LiveData<Date>
         get() = _lastSearchDate
 
-    private val _repositoryList = MutableLiveData<List<Item>>()
-    val repositoryList: LiveData<List<Item>>
+    private val _repositoryList = MutableLiveData<List<Repository>>()
+    val repositoryList: LiveData<List<Repository>>
         get() = _repositoryList
 
     private val _errorLD = MutableLiveData(false)
@@ -52,7 +52,7 @@ class OneViewModel @Inject constructor(
                     }
                 val jsonBody = JSONObject(response.receive<String>())
                 val jsonItems = jsonBody.optJSONArray("items")
-                val items = mutableListOf<Item>()
+                val items = mutableListOf<Repository>()
 
                 jsonItems?.let {
                     for (i in 0 until jsonItems.length()) {
@@ -66,7 +66,7 @@ class OneViewModel @Inject constructor(
                         val openIssuesCount = jsonItem.optLong("open_issues_count")
 
                         items.add(
-                            Item(
+                            Repository(
                                 name = name,
                                 ownerIconUrl = ownerIconUrl,
                                 language = application.getString(
@@ -92,7 +92,7 @@ class OneViewModel @Inject constructor(
 }
 
 @Parcelize
-data class Item(
+data class Repository(
     val name: String,
     val ownerIconUrl: String?,
     val language: String,

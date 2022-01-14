@@ -15,27 +15,27 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
-import jp.co.yumemi.android.code_check.databinding.FragmentOneBinding
+import jp.co.yumemi.android.code_check.databinding.FragmentSearchBinding
 import jp.co.yumemi.android.code_check.ui.CustomDialog
 import timber.log.Timber
 
 @AndroidEntryPoint
-class OneFragment : Fragment(R.layout.fragment_one) {
-    private val viewModel: OneViewModel by viewModels()
+class SearchFragment : Fragment(R.layout.fragment_search) {
+    private val viewModel: SearchViewModel by viewModels()
 
-    private var _binding: FragmentOneBinding? = null
-    private val binding: FragmentOneBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding: FragmentSearchBinding
         get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentOneBinding.bind(view)
+        _binding = FragmentSearchBinding.bind(view)
         logLastSearchDate()
         val layoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), layoutManager.orientation)
         val adapter = CustomAdapter(object : CustomAdapter.OnItemClickListener {
-            override fun itemClick(item: Item) {
+            override fun itemClick(item: Repository) {
                 gotoRepositoryFragment(item)
             }
         })
@@ -79,8 +79,8 @@ class OneFragment : Fragment(R.layout.fragment_one) {
         _binding = null
     }
 
-    fun gotoRepositoryFragment(item: Item) {
-        val action = OneFragmentDirections
+    fun gotoRepositoryFragment(item: Repository) {
+        val action = SearchFragmentDirections
             .actionRepositoriesFragmentToRepositoryFragment(item = item)
         findNavController().navigate(action)
     }
@@ -101,12 +101,12 @@ class OneFragment : Fragment(R.layout.fragment_one) {
     }
 }
 
-val diff_util = object : DiffUtil.ItemCallback<Item>() {
-    override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+val diff_util = object : DiffUtil.ItemCallback<Repository>() {
+    override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean {
         return oldItem.name == newItem.name
     }
 
-    override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+    override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean {
         return oldItem == newItem
     }
 
@@ -114,12 +114,12 @@ val diff_util = object : DiffUtil.ItemCallback<Item>() {
 
 class CustomAdapter(
     private val itemClickListener: OnItemClickListener,
-) : ListAdapter<Item, CustomAdapter.ViewHolder>(diff_util) {
+) : ListAdapter<Repository, CustomAdapter.ViewHolder>(diff_util) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     interface OnItemClickListener {
-        fun itemClick(item: Item)
+        fun itemClick(item: Repository)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
