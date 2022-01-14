@@ -4,17 +4,16 @@
 package jp.co.yumemi.android.code_check
 
 import android.app.Application
-import android.content.Context
 import android.os.Parcelable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -27,6 +26,10 @@ import javax.inject.Inject
 class OneViewModel @Inject constructor(
     private val application: Application
 ) : ViewModel() {
+
+    private val _lastSearchDate = MutableLiveData<Date>()
+    val lastSearchDate: LiveData<Date>
+                 get() = _lastSearchDate
 
     // 検索結果
     fun searchResults(inputText: String): List<Item> = runBlocking {
@@ -66,7 +69,7 @@ class OneViewModel @Inject constructor(
                 }
 
             }
-            lastSearchDate = Date()
+            _lastSearchDate.value = Date()
 
             return@async items.toList()
         }.await()

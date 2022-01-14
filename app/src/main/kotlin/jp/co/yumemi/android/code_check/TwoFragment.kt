@@ -4,13 +4,11 @@
 package jp.co.yumemi.android.code_check
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
-import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
 import jp.co.yumemi.android.code_check.databinding.FragmentTwoBinding
 
 @AndroidEntryPoint
@@ -23,7 +21,6 @@ class TwoFragment : Fragment(R.layout.fragment_two) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("検索した日時", lastSearchDate.toString())
         _binding = FragmentTwoBinding.bind(view)
         var item = args.item
         binding.ownerIconView.load(item.ownerIconUrl);

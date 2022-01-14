@@ -4,6 +4,7 @@
 package jp.co.yumemi.android.code_check
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.databinding.FragmentOneBinding
+import timber.log.Timber
 
 @AndroidEntryPoint
 class OneFragment : Fragment(R.layout.fragment_one) {
@@ -27,6 +29,7 @@ class OneFragment : Fragment(R.layout.fragment_one) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentOneBinding.bind(view)
+        logLastSearchDate()
         val layoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), layoutManager.orientation)
@@ -55,6 +58,10 @@ class OneFragment : Fragment(R.layout.fragment_one) {
             it.adapter = adapter
         }
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     fun gotoRepositoryFragment(item: Item) {
         val action = OneFragmentDirections
@@ -62,9 +69,10 @@ class OneFragment : Fragment(R.layout.fragment_one) {
         findNavController().navigate(action)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun logLastSearchDate() {
+        viewModel.lastSearchDate.observe(viewLifecycleOwner) {
+            Timber.tag("検索した日時").d("$it")
+        }
     }
 }
 
