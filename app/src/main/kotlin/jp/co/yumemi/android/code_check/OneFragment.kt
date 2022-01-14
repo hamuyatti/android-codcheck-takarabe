@@ -20,9 +20,13 @@ import jp.co.yumemi.android.code_check.databinding.FragmentOneBinding
 class OneFragment : Fragment(R.layout.fragment_one) {
     private val viewModel: OneViewModel by viewModels()
 
+    private var _binding: FragmentOneBinding? = null
+    private val binding: FragmentOneBinding
+        get() = _binding!!
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentOneBinding.bind(view)
+        _binding = FragmentOneBinding.bind(view)
         val layoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), layoutManager.orientation)
@@ -56,6 +60,11 @@ class OneFragment : Fragment(R.layout.fragment_one) {
         val action = OneFragmentDirections
             .actionRepositoriesFragmentToRepositoryFragment(item = item)
         findNavController().navigate(action)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 
