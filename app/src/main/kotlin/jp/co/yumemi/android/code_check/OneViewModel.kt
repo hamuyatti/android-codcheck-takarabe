@@ -8,17 +8,17 @@ import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
+import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
 
@@ -29,50 +29,65 @@ class OneViewModel @Inject constructor(
 
     private val _lastSearchDate = MutableLiveData<Date>()
     val lastSearchDate: LiveData<Date>
-                 get() = _lastSearchDate
+        get() = _lastSearchDate
+
+    private val _repositoryList = MutableLiveData<List<Item>>()
+    val repositoryList: LiveData<List<Item>>
+        get() = _repositoryList
+
+    private val _errorLD = MutableLiveData(false)
+    val errorLD: LiveData<Boolean>
+        get() = _errorLD
 
     // 検索結果
-    fun searchResults(inputText: String): List<Item> = runBlocking {
-        val client = HttpClient(Android)
+    fun searchResults(inputText: String) {
+        _errorLD.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val client = HttpClient(Android)
+                val response: HttpResponse =
+                    client.get("https://api.github.com/search/repositories") {
+                        header("Accept", "application/vnd.github.v3+json")
+                        parameter("q", inputText)
+                    }
+                val jsonBody = JSONObject(response.receive<String>())
+                val jsonItems = jsonBody.optJSONArray("items")
+                val items = mutableListOf<Item>()
 
-        return@runBlocking GlobalScope.async {
-            val response: HttpResponse = client.get("https://api.github.com/search/repositories") {
-                header("Accept", "application/vnd.github.v3+json")
-                parameter("q", inputText)
-            }
-            val jsonBody = JSONObject(response.receive<String>())
-            val jsonItems = jsonBody.optJSONArray("items")
-            val items = mutableListOf<Item>()
+                jsonItems?.let {
+                    for (i in 0 until jsonItems.length()) {
+                        val jsonItem = jsonItems.optJSONObject(i)
+                        val name = jsonItem.optString("full_name")
+                        val ownerIconUrl = jsonItem.optJSONObject("owner")?.optString("avatar_url")
+                        val language = jsonItem.optString("language")
+                        val stargazersCount = jsonItem.optLong("stargazers_count")
+                        val watchersCount = jsonItem.optLong("watchers_count")
+                        val forksCount = jsonItem.optLong("forks_count")
+                        val openIssuesCount = jsonItem.optLong("open_issues_count")
 
-            jsonItems?.let {
-                for (i in 0 until jsonItems.length()) {
-                    val jsonItem = jsonItems.optJSONObject(i)
-                    val name = jsonItem.optString("full_name")
-                    val ownerIconUrl = jsonItem.optJSONObject("owner")?.optString("avatar_url")
-                    val language = jsonItem.optString("language")
-                    val stargazersCount = jsonItem.optLong("stargazers_count")
-                    val watchersCount = jsonItem.optLong("watchers_count")
-                    val forksCount = jsonItem.optLong("forks_count")
-                    val openIssuesCount = jsonItem.optLong("open_issues_count")
-
-                    items.add(
-                        Item(
-                            name = name,
-                            ownerIconUrl = ownerIconUrl,
-                            language = application.getString(R.string.written_language, language),
-                            stargazersCount = stargazersCount,
-                            watchersCount = watchersCount,
-                            forksCount = forksCount,
-                            openIssuesCount = openIssuesCount
+                        items.add(
+                            Item(
+                                name = name,
+                                ownerIconUrl = ownerIconUrl,
+                                language = application.getString(
+                                    R.string.written_language,
+                                    language
+                                ),
+                                stargazersCount = stargazersCount,
+                                watchersCount = watchersCount,
+                                forksCount = forksCount,
+                                openIssuesCount = openIssuesCount
+                            )
                         )
-                    )
+                    }
+
                 }
-
+                _lastSearchDate.postValue(Date())
+                _repositoryList.postValue(items)
+            } catch (e: Exception) {
+                _errorLD.postValue(true)
             }
-            _lastSearchDate.postValue(Date())
-
-            return@async items.toList()
-        }.await()
+        }
     }
 }
 

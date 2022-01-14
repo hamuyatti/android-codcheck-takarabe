@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="JetBrains/kotlin"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,11 +43,14 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="Written in Kotlin"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="14sp"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameView"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toStartOf="@id/centerGuid"
+         />
 
     <TextView
         android:id="@+id/starsView"
@@ -55,13 +58,13 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="38530 stars"
+        android:text=""
         android:textAlignment="textEnd"
         android:textColor="@color/black"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/centerGuid"
-        app:layout_constraintTop_toBottomOf="@id/nameView" />
+        app:layout_constraintTop_toBottomOf="@id/languageView" />
 
     <TextView
         android:id="@+id/watchersView"
@@ -69,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="38530 watchers"
+        android:text=""
         android:textAlignment="textEnd"
         android:textColor="@color/black"
         android:textSize="12sp"
@@ -83,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="4675 forks"
+        android:text=""
         android:textAlignment="textEnd"
         android:textColor="@color/black"
         android:textSize="12sp"
@@ -97,7 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="131 open issues"
+        android:text=""
         android:textAlignment="textEnd"
         android:textColor="@color/black"
         android:textSize="12sp"
