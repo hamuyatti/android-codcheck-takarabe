@@ -51,7 +51,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun setUpRecyclerView(adapter: RepositoryListAdapter) {
         val layoutManager = LinearLayoutManager(requireContext())
-        val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
+        val dividerItemDecoration =
+            DividerItemDecoration(requireContext(), layoutManager.orientation)
         binding.recyclerView.also {
             it.layoutManager = layoutManager
             it.addItemDecoration(dividerItemDecoration)
@@ -59,7 +60,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-    private fun setUpInputTextLayout(){
+    private fun setUpInputTextLayout() {
         binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
                 if (action == KeyEvent.ACTION_DOWN) return@setOnEditorActionListener false
@@ -80,13 +81,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-    private fun observe(adapter: RepositoryListAdapter){
+    private fun observe(adapter: RepositoryListAdapter) {
         viewModel.errorLD.observe(viewLifecycleOwner) {
             if (it) {
                 showDialog(getString(R.string.if_error_when_search))
             }
         }
-        viewModel.repositoryList.observe(viewLifecycleOwner){
+        viewModel.repositoryList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }

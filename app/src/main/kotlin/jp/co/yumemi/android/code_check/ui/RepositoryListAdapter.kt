@@ -32,7 +32,10 @@ class ItemViewHolder(
     private val clickListener: RepositoryListAdapter.OnItemClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
     companion object {
-        fun create(parent: ViewGroup, clickListener: RepositoryListAdapter.OnItemClickListener): ItemViewHolder {
+        fun create(
+            parent: ViewGroup,
+            clickListener: RepositoryListAdapter.OnItemClickListener
+        ): ItemViewHolder {
             return ItemViewHolder(
                 LayoutItemBinding.inflate(
                     LayoutInflater.from(parent.context),

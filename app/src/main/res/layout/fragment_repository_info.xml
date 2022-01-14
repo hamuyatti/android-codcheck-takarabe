@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="repositoryData"
             type="jp.co.yumemi.android.code_check.viewModels.Repository" />
+
         <variable
             name="vm"
             type="jp.co.yumemi.android.code_check.viewModels.RepositoryInfoViewModel" />
@@ -30,7 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_max="240dp"
-            app:loadImage="@{repositoryData.ownerIconUrl}"/>
+            app:loadImage="@{repositoryData.ownerIconUrl}" />
 
         <TextView
             android:id="@+id/nameView"

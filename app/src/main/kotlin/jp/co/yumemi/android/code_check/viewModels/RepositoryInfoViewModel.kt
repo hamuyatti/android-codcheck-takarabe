@@ -10,8 +10,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RepositoryInfoViewModel @Inject constructor(
     private val application: Application
-):ViewModel(){
-    fun makeDisplayText(baseLong: Long,addedText:String):String{
+) : ViewModel() {
+    fun makeDisplayText(baseLong: Long, addedText: String): String {
         return "${baseLong}${addedText}"
     }
 
