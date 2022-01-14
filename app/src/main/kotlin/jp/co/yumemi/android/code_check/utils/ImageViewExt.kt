@@ -4,8 +4,9 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import coil.load
 
-class ImageViewExt {
+object ImageViewExt {
     @BindingAdapter("loadImage")
+    @JvmStatic
     fun loadImage(view: ImageView?, urlString: String) {
         view ?: return
         view.load(urlString)

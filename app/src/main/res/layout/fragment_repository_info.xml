@@ -6,8 +6,12 @@
 
     <data>
         <variable
-            name="repository"
+            name="repositoryData"
             type="jp.co.yumemi.android.code_check.viewModels.Repository" />
+        <variable
+            name="vm"
+            type="jp.co.yumemi.android.code_check.viewModels.RepositoryInfoViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,14 +29,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_max="240dp" />
+            app:layout_constraintWidth_max="240dp"
+            app:loadImage="@{repositoryData.ownerIconUrl}"/>
 
         <TextView
             android:id="@+id/nameView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text=""
+            android:text="@{repositoryData.name}"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text=""
+            android:text="@{vm.checkIsNull(repositoryData.language)}"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -66,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text=""
+            android:text="@{vm.makeDisplayText(repositoryData.stargazersCount,@string/addition_stars)}"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
@@ -80,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text=""
+            android:text="@{vm.makeDisplayText(repositoryData.watchersCount,@string/addition_watchers)}"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
@@ -94,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text=""
+            android:text="@{vm.makeDisplayText(repositoryData.forksCount,@string/addition_forks)}"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
@@ -108,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text=""
+            android:text="@{vm.makeDisplayText(repositoryData.openIssuesCount,@string/addition_openIssuesCount)}"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"

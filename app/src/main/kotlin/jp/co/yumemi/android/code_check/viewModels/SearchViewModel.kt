@@ -70,10 +70,7 @@ class SearchViewModel @Inject constructor(
                             Repository(
                                 name = name,
                                 ownerIconUrl = ownerIconUrl,
-                                language = application.getString(
-                                    R.string.written_language,
-                                    language
-                                ),
+                                language = language,
                                 stargazersCount = stargazersCount,
                                 watchersCount = watchersCount,
                                 forksCount = forksCount,
