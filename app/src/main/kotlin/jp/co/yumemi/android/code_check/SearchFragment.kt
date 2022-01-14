@@ -34,25 +34,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         logLastSearchDate()
         val adapter = initializeAdapter()
         setUpRecyclerView(adapter)
-        binding.searchInputText
-            .setOnEditorActionListener { editText, action, _ ->
-                if (action == KeyEvent.ACTION_DOWN) return@setOnEditorActionListener false
-
-                if (editText.length() == 0) {
-                    showDialog(getString(R.string.no_input_text))
-                } else if (action == EditorInfo.IME_ACTION_SEARCH) {
-                    editText.text.toString().let {
-                        viewModel.searchResults(it)
-                    }
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
-
-        binding.searchInputLayout.setEndIconOnClickListener {
-            binding.searchInputText.setText("")
-        }
-
+        setUpInputTextLayout()
         viewModel.errorLD.observe(viewLifecycleOwner) {
             if (it) {
                 showDialog(getString(R.string.if_error_when_search))
@@ -84,6 +66,27 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             it.layoutManager = layoutManager
             it.addItemDecoration(dividerItemDecoration)
             it.adapter = adapter
+        }
+    }
+
+    private fun setUpInputTextLayout(){
+        binding.searchInputText
+            .setOnEditorActionListener { editText, action, _ ->
+                if (action == KeyEvent.ACTION_DOWN) return@setOnEditorActionListener false
+
+                if (editText.length() == 0) {
+                    showDialog(getString(R.string.no_input_text))
+                } else if (action == EditorInfo.IME_ACTION_SEARCH) {
+                    editText.text.toString().let {
+                        viewModel.searchResults(it)
+                    }
+                    return@setOnEditorActionListener true
+                }
+                return@setOnEditorActionListener false
+            }
+
+        binding.searchInputLayout.setEndIconOnClickListener {
+            binding.searchInputText.setText("")
         }
     }
 
