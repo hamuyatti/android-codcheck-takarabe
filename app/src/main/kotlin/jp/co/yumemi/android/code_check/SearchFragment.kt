@@ -5,11 +5,8 @@ package jp.co.yumemi.android.code_check
 
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -34,15 +31,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         logLastSearchDate()
         val adapter = initializeAdapter()
         setUpRecyclerView(adapter)
+        observe(adapter)
         setUpInputTextLayout()
-        viewModel.errorLD.observe(viewLifecycleOwner) {
-            if (it) {
-                showDialog(getString(R.string.if_error_when_search))
-            }
-        }
-        viewModel.repositoryList.observe(viewLifecycleOwner){
-            adapter.submitList(it)
-        }
     }
 
     override fun onDestroyView() {
@@ -60,8 +50,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun setUpRecyclerView(adapter: RepositoryListAdapter) {
         val layoutManager = LinearLayoutManager(requireContext())
-        val dividerItemDecoration =
-            DividerItemDecoration(requireContext(), layoutManager.orientation)
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
         binding.recyclerView.also {
             it.layoutManager = layoutManager
             it.addItemDecoration(dividerItemDecoration)
@@ -87,6 +76,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         binding.searchInputLayout.setEndIconOnClickListener {
             binding.searchInputText.setText("")
+        }
+    }
+
+    private fun observe(adapter: RepositoryListAdapter){
+        viewModel.errorLD.observe(viewLifecycleOwner) {
+            if (it) {
+                showDialog(getString(R.string.if_error_when_search))
+            }
+        }
+        viewModel.repositoryList.observe(viewLifecycleOwner){
+            adapter.submitList(it)
         }
     }
 
