@@ -55,6 +55,9 @@ class OneFragment : Fragment(R.layout.fragment_one) {
                 return@setOnEditorActionListener false
             }
 
+        binding.searchInputLayout.setEndIconOnClickListener{
+            binding.searchInputText.setText("")
+        }
         binding.recyclerView.also {
             it.layoutManager = layoutManager
             it.addItemDecoration(dividerItemDecoration)
