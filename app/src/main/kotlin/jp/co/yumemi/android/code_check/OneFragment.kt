@@ -4,6 +4,7 @@
 package jp.co.yumemi.android.code_check
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,10 +42,11 @@ class OneFragment : Fragment(R.layout.fragment_one) {
 
         binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
-                if(editText.length() == 0){
+                if (action == KeyEvent.ACTION_DOWN) return@setOnEditorActionListener false
+
+                if (editText.length() == 0) {
                     showDialog(getString(R.string.no_input_text))
-                }
-                else if (action == EditorInfo.IME_ACTION_SEARCH) {
+                } else if (action == EditorInfo.IME_ACTION_SEARCH) {
                     editText.text.toString().let {
                         viewModel.searchResults(it).apply {
                             adapter.submitList(this)
@@ -55,7 +57,7 @@ class OneFragment : Fragment(R.layout.fragment_one) {
                 return@setOnEditorActionListener false
             }
 
-        binding.searchInputLayout.setEndIconOnClickListener{
+        binding.searchInputLayout.setEndIconOnClickListener {
             binding.searchInputText.setText("")
         }
         binding.recyclerView.also {
@@ -64,6 +66,7 @@ class OneFragment : Fragment(R.layout.fragment_one) {
             it.adapter = adapter
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -86,7 +89,7 @@ class OneFragment : Fragment(R.layout.fragment_one) {
             "",
             message,
             childFragmentManager,
-            CustomDialog::class.simpleName?: return
+            CustomDialog::class.simpleName ?: return
         )
     }
 }
