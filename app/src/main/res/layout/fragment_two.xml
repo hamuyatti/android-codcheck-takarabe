@@ -47,7 +47,8 @@
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/nameView"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toStartOf="@id/centerGuid"
+         />
 
     <TextView
         android:id="@+id/starsView"
@@ -61,7 +62,7 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/centerGuid"
-        app:layout_constraintTop_toBottomOf="@id/nameView" />
+        app:layout_constraintTop_toBottomOf="@id/languageView" />
 
     <TextView
         android:id="@+id/watchersView"
