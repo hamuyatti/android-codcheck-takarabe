@@ -71,7 +71,7 @@ class OneFragment : Fragment(R.layout.fragment_one) {
 
     private fun logLastSearchDate() {
         viewModel.lastSearchDate.observe(viewLifecycleOwner) {
-            Timber.tag("検索した日時").d("$it")
+            Timber.tag(getString(R.string.searching_time)).d("$it")
         }
     }
 }
