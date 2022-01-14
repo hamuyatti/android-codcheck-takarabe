@@ -76,7 +76,7 @@ class OneViewModel @Inject constructor(
 
             }
             _lastSearchDate.postValue(Date())
-            _repositoryList.postValue(items.toList())
+            _repositoryList.postValue(items)
         }
     }
 }
