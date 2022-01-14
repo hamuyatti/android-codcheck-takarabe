@@ -32,11 +32,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
         logLastSearchDate()
-        val layoutManager = LinearLayoutManager(requireContext())
-        val dividerItemDecoration =
-            DividerItemDecoration(requireContext(), layoutManager.orientation)
         val adapter = initializeAdapter()
-
+        setUpRecyclerView(adapter)
         binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
                 if (action == KeyEvent.ACTION_DOWN) return@setOnEditorActionListener false
@@ -54,11 +51,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         binding.searchInputLayout.setEndIconOnClickListener {
             binding.searchInputText.setText("")
-        }
-        binding.recyclerView.also {
-            it.layoutManager = layoutManager
-            it.addItemDecoration(dividerItemDecoration)
-            it.adapter = adapter
         }
 
         viewModel.errorLD.observe(viewLifecycleOwner) {
@@ -82,6 +74,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 gotoRepositoryFragment(repository)
             }
         })
+    }
+
+    private fun setUpRecyclerView(adapter: RepositoryListAdapter) {
+        val layoutManager = LinearLayoutManager(requireContext())
+        val dividerItemDecoration =
+            DividerItemDecoration(requireContext(), layoutManager.orientation)
+        binding.recyclerView.also {
+            it.layoutManager = layoutManager
+            it.addItemDecoration(dividerItemDecoration)
+            it.adapter = adapter
+        }
     }
 
     fun gotoRepositoryFragment(item: Repository) {
