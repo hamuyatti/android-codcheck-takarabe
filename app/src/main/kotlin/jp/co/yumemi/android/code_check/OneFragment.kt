@@ -4,7 +4,6 @@
 package jp.co.yumemi.android.code_check
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.databinding.FragmentOneBinding
+import jp.co.yumemi.android.code_check.ui.CustomDialog
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -41,7 +41,10 @@ class OneFragment : Fragment(R.layout.fragment_one) {
 
         binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
-                if (action == EditorInfo.IME_ACTION_SEARCH) {
+                if(editText.length() == 0){
+                    showDialog(getString(R.string.no_input_text))
+                }
+                else if (action == EditorInfo.IME_ACTION_SEARCH) {
                     editText.text.toString().let {
                         viewModel.searchResults(it).apply {
                             adapter.submitList(this)
@@ -73,6 +76,15 @@ class OneFragment : Fragment(R.layout.fragment_one) {
         viewModel.lastSearchDate.observe(viewLifecycleOwner) {
             Timber.tag(getString(R.string.searching_time)).d("$it")
         }
+    }
+
+    private fun showDialog(message: String) {
+        CustomDialog.showDialog(
+            "",
+            message,
+            childFragmentManager,
+            CustomDialog::class.simpleName?: return
+        )
     }
 }
 

@@ -8,8 +8,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import jp.co.yumemi.android.code_check.R
+import timber.log.Timber
 
-class AlertDialog : DialogFragment(){
+class CustomDialog : DialogFragment(){
     companion object {
         private const val BUNDLE_KEY_TITLE = "bundle_key_title"
         private const val BUNDLE_KEY_MESSAGE = "bundle_key_message"
@@ -25,8 +26,8 @@ class AlertDialog : DialogFragment(){
             }
         }
 
-        private fun newInstance(title: String, message: String): DialogFragment {
-            return DialogFragment().apply {
+        private fun newInstance(title: String, message: String): CustomDialog {
+            return CustomDialog().apply {
                 arguments = bundleOf(
                     Pair(BUNDLE_KEY_TITLE, title),
                     Pair(BUNDLE_KEY_MESSAGE, message)
