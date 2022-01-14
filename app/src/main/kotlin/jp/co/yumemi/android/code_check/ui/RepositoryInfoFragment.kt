@@ -17,13 +17,8 @@ import jp.co.yumemi.android.code_check.viewModels.RepositoryInfoViewModel
 
 @AndroidEntryPoint
 class RepositoryInfoFragment : Fragment(R.layout.fragment_repository_info) {
-
     private val args: RepositoryInfoFragmentArgs by navArgs()
     private val viewModel: RepositoryInfoViewModel by viewModels()
-
-    private var _binding: FragmentRepositoryInfoBinding? = null
-    private val binding: FragmentRepositoryInfoBinding
-        get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,10 +26,5 @@ class RepositoryInfoFragment : Fragment(R.layout.fragment_repository_info) {
             this.repositoryData = args.repositoryData
             this.vm = viewModel
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
