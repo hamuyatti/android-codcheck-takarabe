@@ -6,6 +6,7 @@ package jp.co.yumemi.android.code_check
 import android.content.Context
 import android.os.Parcelable
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
@@ -19,6 +20,7 @@ import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.*
 
+@HiltViewModel
 class OneViewModel(
     val context: Context
 ) : ViewModel() {
