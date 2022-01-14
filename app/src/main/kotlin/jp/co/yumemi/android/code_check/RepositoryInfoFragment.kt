@@ -22,14 +22,14 @@ class RepositoryInfoFragment : Fragment(R.layout.fragment_repository_info) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentRepositoryInfoBinding.bind(view)
-        var item = args.item
-        binding.ownerIconView.load(item.ownerIconUrl);
-        binding.nameView.text = item.name;
-        binding.languageView.text = item.language;
-        binding.starsView.text = "${item.stargazersCount} stars";
-        binding.watchersView.text = "${item.watchersCount} watchers";
-        binding.forksView.text = "${item.forksCount} forks";
-        binding.openIssuesView.text = "${item.openIssuesCount} open issues";
+        var item = args.repository
+        binding.ownerIconView.load(item.ownerIconUrl)
+        binding.nameView.text = item.name
+        binding.languageView.text = item.language
+        binding.starsView.text = "${item.stargazersCount} stars"
+        binding.watchersView.text = "${item.watchersCount} watchers"
+        binding.forksView.text = "${item.forksCount} forks"
+        binding.openIssuesView.text = "${item.openIssuesCount} open issues"
     }
 
     override fun onDestroyView() {
