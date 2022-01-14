@@ -44,7 +44,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun initializeAdapter(): RepositoryListAdapter {
         return RepositoryListAdapter(object : RepositoryListAdapter.OnItemClickListener {
             override fun itemClick(repository: Repository) {
-                gotoRepositoryFragment(repository)
+                navigateRepositoryInfoFragment(repository)
             }
         })
     }
@@ -91,7 +91,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-    fun gotoRepositoryFragment(item: Repository) {
+    fun navigateRepositoryInfoFragment(item: Repository) {
         val action = SearchFragmentDirections
             .actionRepositoriesFragmentToRepositoryFragment(repositoryData = item)
         findNavController().navigate(action)
