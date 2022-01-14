@@ -35,11 +35,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         val layoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), layoutManager.orientation)
-        val adapter = RepositoryListAdapter(object : RepositoryListAdapter.OnItemClickListener {
-            override fun itemClick(repository: Repository) {
-                gotoRepositoryFragment(repository)
-            }
-        })
+        val adapter = initializeAdapter()
 
         binding.searchInputText
             .setOnEditorActionListener { editText, action, _ ->
@@ -80,6 +76,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         _binding = null
     }
 
+    private fun initializeAdapter(): RepositoryListAdapter {
+        return RepositoryListAdapter(object : RepositoryListAdapter.OnItemClickListener {
+            override fun itemClick(repository: Repository) {
+                gotoRepositoryFragment(repository)
+            }
+        })
+    }
 
     fun gotoRepositoryFragment(item: Repository) {
         val action = SearchFragmentDirections
