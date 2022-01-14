@@ -3,10 +3,12 @@
  */
 package jp.co.yumemi.android.code_check
 
+import android.app.Application
 import android.content.Context
 import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
@@ -19,10 +21,11 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.*
+import javax.inject.Inject
 
 @HiltViewModel
-class OneViewModel(
-    val context: Context
+class OneViewModel @Inject constructor(
+    private val application: Application
 ) : ViewModel() {
 
     // 検索結果
@@ -53,7 +56,7 @@ class OneViewModel(
                         Item(
                             name = name,
                             ownerIconUrl = ownerIconUrl,
-                            language = context.getString(R.string.written_language, language),
+                            language = application.getString(R.string.written_language, language),
                             stargazersCount = stargazersCount,
                             watchersCount = watchersCount,
                             forksCount = forksCount,
