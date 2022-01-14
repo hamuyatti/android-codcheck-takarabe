@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchBinding
 import jp.co.yumemi.android.code_check.ui.CustomDialog
+import jp.co.yumemi.android.code_check.ui.RepositoryListAdapter
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -34,9 +35,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         val layoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), layoutManager.orientation)
-        val adapter = CustomAdapter(object : CustomAdapter.OnItemClickListener {
-            override fun itemClick(item: Repository) {
-                gotoRepositoryFragment(item)
+        val adapter = RepositoryListAdapter(object : RepositoryListAdapter.OnItemClickListener {
+            override fun itemClick(repository: Repository) {
+                gotoRepositoryFragment(repository)
             }
         })
 
@@ -79,9 +80,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         _binding = null
     }
 
+
     fun gotoRepositoryFragment(item: Repository) {
         val action = SearchFragmentDirections
-            .actionRepositoriesFragmentToRepositoryFragment(item = item)
+            .actionRepositoriesFragmentToRepositoryFragment(repository = item)
         findNavController().navigate(action)
     }
 
@@ -98,43 +100,5 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             childFragmentManager,
             CustomDialog::class.simpleName ?: return
         )
-    }
-}
-
-val diff_util = object : DiffUtil.ItemCallback<Repository>() {
-    override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean {
-        return oldItem.name == newItem.name
-    }
-
-    override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean {
-        return oldItem == newItem
-    }
-
-}
-
-class CustomAdapter(
-    private val itemClickListener: OnItemClickListener,
-) : ListAdapter<Repository, CustomAdapter.ViewHolder>(diff_util) {
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
-
-    interface OnItemClickListener {
-        fun itemClick(item: Repository)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_item, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        (holder.itemView.findViewById<View>(R.id.repositoryNameView) as TextView).text =
-            item.name
-
-        holder.itemView.setOnClickListener {
-            itemClickListener.itemClick(item)
-        }
     }
 }
