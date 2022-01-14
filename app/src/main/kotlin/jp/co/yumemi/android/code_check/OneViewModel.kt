@@ -69,7 +69,7 @@ class OneViewModel @Inject constructor(
                 }
 
             }
-            _lastSearchDate.value = Date()
+            _lastSearchDate.postValue(Date())
 
             return@async items.toList()
         }.await()
