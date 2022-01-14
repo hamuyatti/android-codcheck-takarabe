@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import jp.co.yumemi.android.code_check.Repository
+import jp.co.yumemi.android.code_check.viewModels.Repository
 import jp.co.yumemi.android.code_check.databinding.LayoutItemBinding
 
 class RepositoryListAdapter(
@@ -23,7 +23,7 @@ class RepositoryListAdapter(
     }
 
     interface OnItemClickListener {
-        fun itemClick(repository:Repository)
+        fun itemClick(repository: Repository)
     }
 }
 

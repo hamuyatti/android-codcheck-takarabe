@@ -13,8 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.R
-import jp.co.yumemi.android.code_check.Repository
-import jp.co.yumemi.android.code_check.SearchViewModel
+import jp.co.yumemi.android.code_check.viewModels.Repository
+import jp.co.yumemi.android.code_check.viewModels.SearchViewModel
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchBinding
 import timber.log.Timber
 
