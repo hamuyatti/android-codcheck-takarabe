@@ -17,6 +17,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
@@ -32,11 +33,15 @@ class OneViewModel @Inject constructor(
     val lastSearchDate: LiveData<Date>
                  get() = _lastSearchDate
 
+    private val _repositoryList = MutableLiveData<List<Item>>()
+    val repositoryList: LiveData<List<Item>>
+        get() = _repositoryList
+
     // 検索結果
-    fun searchResults(inputText: String): List<Item> = runBlocking {
+    fun searchResults(inputText: String){
         val client = HttpClient(Android)
 
-        return@runBlocking viewModelScope.async {
+        viewModelScope.launch{
             val response: HttpResponse = client.get("https://api.github.com/search/repositories") {
                 header("Accept", "application/vnd.github.v3+json")
                 parameter("q", inputText)
@@ -71,9 +76,8 @@ class OneViewModel @Inject constructor(
 
             }
             _lastSearchDate.postValue(Date())
-
-            return@async items.toList()
-        }.await()
+            _repositoryList.postValue(items.toList())
+        }
     }
 }
 
