@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface SearchRepository {
     val state: StateFlow<Resource<List<RepositoryInfo>>>
-    suspend fun fetchRepository(inputText:String)
+    suspend fun fetchRepository(searchText:String)
 }

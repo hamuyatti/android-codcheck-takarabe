@@ -6,6 +6,7 @@ import jp.co.yumemi.android.code_check.entity.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.json.JSONObject
+import java.io.IOException
 
 class SearchRepositoryImpl(private val api: Api) : SearchRepository {
 
@@ -34,8 +35,6 @@ class SearchRepositoryImpl(private val api: Api) : SearchRepository {
                 }
                 _state.value = Resource.Success(items)
             }
-        } catch (e: Exception) {
-
         }
     }
 }
