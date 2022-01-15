@@ -55,6 +55,5 @@ class RepositoryInfoViewModel @Inject constructor(
                 }
             }
         }
-
     }
 }

@@ -35,11 +35,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
-        logLastSearchDate()
         val adapter = initializeAdapter()
         setUpRecyclerView(adapter)
         collect(adapter)
         setUpInputTextLayout()
+        logLastSearchDate()
     }
 
     override fun onDestroyView() {
