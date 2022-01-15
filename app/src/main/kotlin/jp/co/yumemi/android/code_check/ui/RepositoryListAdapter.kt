@@ -23,7 +23,7 @@ class RepositoryListAdapter(
     }
 
     interface OnItemClickListener {
-        fun itemClick(repository: RepositoryInfo)
+        fun itemClick(repositoryInfo: RepositoryInfo)
     }
 }
 
