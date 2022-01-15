@@ -44,8 +44,8 @@ class RepositoryInfoViewModel @Inject constructor(
                 context.getString(R.string.addition_openIssuesCount, repositoryInfo.openIssuesCount)
             )
 
-            private fun checkIsNull(context: Context, text: String): String {
-                return if (text == context.getString(R.string.null_string)) {
+            private fun checkIsNull(context: Context, text: String?): String {
+                return if (text == null) {
                     context.getString(R.string.not_set_language)
                 } else {
                     context.getString(
