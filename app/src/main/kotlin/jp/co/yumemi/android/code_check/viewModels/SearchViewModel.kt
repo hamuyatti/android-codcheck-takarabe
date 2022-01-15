@@ -3,6 +3,7 @@
  */
 package jp.co.yumemi.android.code_check.viewModels
 
+import android.content.Context
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +14,7 @@ import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import jp.co.yumemi.android.code_check.R
 import kotlinx.coroutines.*
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject

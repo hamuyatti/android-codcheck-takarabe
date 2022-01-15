@@ -3,10 +3,10 @@
     <string name="searchInputText_hint">GitHub のリポジトリを検索できるよー</string>
     <string name="written_language">Written in %s</string>
 
-    <string name="addition_stars">stars</string>
-    <string name="addition_watchers">watchers</string>
-    <string name="addition_forks">forks</string>
-    <string name="addition_openIssuesCount">open issues</string>
+    <string name="addition_stars">%d stars</string>
+    <string name="addition_watchers">%d watchers</string>
+    <string name="addition_forks">%d forks</string>
+    <string name="addition_openIssuesCount">%d open issues</string>
 
     <string name="no_input_text">検索したい名前を入力してください</string>
     <string name="if_error_when_search">データの取得に失敗しました。</string>

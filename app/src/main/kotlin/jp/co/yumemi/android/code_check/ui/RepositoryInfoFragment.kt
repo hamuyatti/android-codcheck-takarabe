@@ -23,8 +23,9 @@ class RepositoryInfoFragment : Fragment(R.layout.fragment_repository_info) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         FragmentRepositoryInfoBinding.bind(view).apply {
-            this.repositoryData = args.repositoryData
             this.vm = viewModel
+            this.lifecycleOwner = viewLifecycleOwner
         }
+        viewModel.init(args.repositoryData)
     }
 }
