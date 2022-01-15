@@ -9,14 +9,20 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.R
-import jp.co.yumemi.android.code_check.viewModels.Repository
 import jp.co.yumemi.android.code_check.viewModels.SearchViewModel
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchBinding
+import jp.co.yumemi.android.code_check.entity.RepositoryInfo
+import jp.co.yumemi.android.code_check.entity.Resource
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.IOException
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -29,11 +35,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
-        logLastSearchDate()
         val adapter = initializeAdapter()
         setUpRecyclerView(adapter)
-        observe(adapter)
+        collect(adapter)
         setUpInputTextLayout()
+        logLastSearchDate()
     }
 
     override fun onDestroyView() {
@@ -43,8 +49,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun initializeAdapter(): RepositoryListAdapter {
         return RepositoryListAdapter(object : RepositoryListAdapter.OnItemClickListener {
-            override fun itemClick(repository: Repository) {
-                navigateRepositoryInfoFragment(repository)
+            override fun itemClick(repositoryInfo: RepositoryInfo) {
+                navigateRepositoryInfoFragment(repositoryInfo)
             }
         })
     }
@@ -68,9 +74,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 if (editText.length() == 0) {
                     showDialog(getString(R.string.no_input_text))
                 } else if (action == EditorInfo.IME_ACTION_SEARCH) {
-                    editText.text.toString().let {
-                        viewModel.searchResults(it)
-                    }
+                    viewModel.searchResults(editText.text.toString())
                     return@setOnEditorActionListener true
                 }
                 return@setOnEditorActionListener false
@@ -81,26 +85,40 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-    private fun observe(adapter: RepositoryListAdapter) {
-        viewModel.errorLD.observe(viewLifecycleOwner) {
-            if (it) {
-                showDialog(getString(R.string.if_error_when_search))
+    private fun collect(adapter: RepositoryListAdapter) {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect {
+                    when (it) {
+                        is Resource.Success -> adapter.submitList(it.data)
+                        is Resource.Failed -> handleError(it.throwable)
+                        is Resource.Empty -> {}
+                    }
+                }
             }
-        }
-        viewModel.repositoryList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
         }
     }
 
-    fun navigateRepositoryInfoFragment(item: Repository) {
+    fun navigateRepositoryInfoFragment(item: RepositoryInfo) {
         val action = SearchFragmentDirections
-            .actionRepositoriesFragmentToRepositoryFragment(repositoryData = item)
+            .actionRepositoriesFragmentToRepositoryFragment(repositoryInfo = item)
         findNavController().navigate(action)
     }
 
     private fun logLastSearchDate() {
         viewModel.lastSearchDate.observe(viewLifecycleOwner) {
             Timber.tag(getString(R.string.searching_time)).d("$it")
+        }
+    }
+
+    private fun handleError(throwable: Throwable) {
+        when (throwable) {
+            is IOException -> {
+                showDialog(getString(R.string.if_io_exception))
+            }
+            else -> {
+                showDialog(getString(R.string.if_error_when_search))
+            }
         }
     }
 
