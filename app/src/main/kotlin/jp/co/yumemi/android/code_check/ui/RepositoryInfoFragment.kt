@@ -26,6 +26,6 @@ class RepositoryInfoFragment : Fragment(R.layout.fragment_repository_info) {
             this.vm = viewModel
             this.lifecycleOwner = viewLifecycleOwner
         }
-        viewModel.init(args.repositoryData)
+        viewModel.init(args.repositoryInfo)
     }
 }

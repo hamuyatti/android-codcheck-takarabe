@@ -6,7 +6,7 @@
     <data>
         <variable
             name="repository"
-            type="jp.co.yumemi.android.code_check.viewModels.Repository" />
+            type="jp.co.yumemi.android.code_check.entity.RepositoryInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,10 +1,10 @@
 package jp.co.yumemi.android.code_check.repository
 
+import jp.co.yumemi.android.code_check.entity.RepositoryInfo
 import jp.co.yumemi.android.code_check.entity.Resource
-import jp.co.yumemi.android.code_check.viewModels.Repository
 import kotlinx.coroutines.flow.StateFlow
 
 interface SearchRepository {
-    val state: StateFlow<Resource<List<Repository>>>
+    val state: StateFlow<Resource<List<RepositoryInfo>>>
     suspend fun fetchRepository(inputText:String)
 }

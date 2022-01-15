@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import jp.co.yumemi.android.code_check.viewModels.Repository
 import jp.co.yumemi.android.code_check.databinding.LayoutItemBinding
+import jp.co.yumemi.android.code_check.entity.RepositoryInfo
 
 class RepositoryListAdapter(
     private val itemClickListener: OnItemClickListener
-) : ListAdapter<Repository, ItemViewHolder>(ResultDiffCallBack()) {
+) : ListAdapter<RepositoryInfo, ItemViewHolder>(ResultDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder.create(parent, itemClickListener)
@@ -23,7 +23,7 @@ class RepositoryListAdapter(
     }
 
     interface OnItemClickListener {
-        fun itemClick(repository: Repository)
+        fun itemClick(repository: RepositoryInfo)
     }
 }
 
@@ -46,7 +46,7 @@ class ItemViewHolder(
         }
     }
 
-    fun bind(item: Repository) {
+    fun bind(item: RepositoryInfo) {
         binding.repositoryNameView.text = item.name
         binding.root.setOnClickListener {
             clickListener.itemClick(item)
@@ -55,12 +55,12 @@ class ItemViewHolder(
 }
 
 
-class ResultDiffCallBack : DiffUtil.ItemCallback<Repository>() {
-    override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean {
+class ResultDiffCallBack : DiffUtil.ItemCallback<RepositoryInfo>() {
+    override fun areItemsTheSame(oldItem: RepositoryInfo, newItem: RepositoryInfo): Boolean {
         return oldItem.name == newItem.name
     }
 
-    override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean {
+    override fun areContentsTheSame(oldItem: RepositoryInfo, newItem: RepositoryInfo): Boolean {
         return oldItem == newItem
     }
 

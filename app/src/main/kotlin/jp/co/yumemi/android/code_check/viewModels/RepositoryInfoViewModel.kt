@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jp.co.yumemi.android.code_check.R
-import timber.log.Timber
+import jp.co.yumemi.android.code_check.entity.RepositoryInfo
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,11 +15,11 @@ class RepositoryInfoViewModel @Inject constructor(
     private val application: Application
 ) : ViewModel() {
 
-    fun init(repository: Repository) {
-        this.repositoryInfo.value = repository
+    fun init(repositoryInfo: RepositoryInfo) {
+        this.repositoryInfo.value = repositoryInfo
     }
 
-    private val repositoryInfo = MutableLiveData<Repository>()
+    private val repositoryInfo = MutableLiveData<RepositoryInfo>()
     val renderData = repositoryInfo.map {
         RenderData.from(application, it)
     }
@@ -34,14 +34,14 @@ class RepositoryInfoViewModel @Inject constructor(
         val openIssuesCountText: String,
     ) {
         companion object {
-            fun from(context: Context, repository: Repository) = RenderData(
-                repository.name,
-                repository.ownerIconUrl,
-                checkIsNull(context = context, text = repository.language),
-                context.getString(R.string.addition_stars, repository.stargazersCount),
-                context.getString(R.string.addition_watchers, repository.watchersCount),
-                context.getString(R.string.addition_forks, repository.forksCount),
-                context.getString(R.string.addition_openIssuesCount, repository.openIssuesCount)
+            fun from(context: Context, repositoryInfo: RepositoryInfo) = RenderData(
+                repositoryInfo.name,
+                repositoryInfo.ownerIconUrl,
+                checkIsNull(context = context, text = repositoryInfo.language),
+                context.getString(R.string.addition_stars, repositoryInfo.stargazersCount),
+                context.getString(R.string.addition_watchers, repositoryInfo.watchersCount),
+                context.getString(R.string.addition_forks, repositoryInfo.forksCount),
+                context.getString(R.string.addition_openIssuesCount, repositoryInfo.openIssuesCount)
             )
 
             private fun checkIsNull(context: Context, text: String): String {
