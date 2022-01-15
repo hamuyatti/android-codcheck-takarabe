@@ -29,18 +29,9 @@ class SearchViewModel @Inject constructor(
     val lastSearchDate: LiveData<Date>
         get() = _lastSearchDate
 
-    private val _repositoryList = MutableLiveData<List<Repository>>()
-    val repositoryList: LiveData<List<Repository>>
-        get() = _repositoryList
-
-    private val _errorLD = MutableLiveData(false)
-    val errorLD: LiveData<Boolean>
-        get() = _errorLD
-
     val state = searchRepository.state
 
     fun searchResults(inputText: String) {
-        _errorLD.value = false
         viewModelScope.launch(Dispatchers.IO) {
             searchRepository.fetchRepository(inputText = inputText)
             _lastSearchDate.postValue(Date())

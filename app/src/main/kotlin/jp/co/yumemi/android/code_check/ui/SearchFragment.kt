@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +20,6 @@ import jp.co.yumemi.android.code_check.viewModels.Repository
 import jp.co.yumemi.android.code_check.viewModels.SearchViewModel
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchBinding
 import jp.co.yumemi.android.code_check.entity.Resource
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -37,7 +37,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         logLastSearchDate()
         val adapter = initializeAdapter()
         setUpRecyclerView(adapter)
-        observe(adapter)
+        collect(adapter)
         setUpInputTextLayout()
     }
 
@@ -86,10 +86,18 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-    private fun observe(adapter: RepositoryListAdapter) {
-        viewModel.errorLD.observe(viewLifecycleOwner) {
-            if (it) {
-                showDialog(getString(R.string.if_error_when_search))
+    private fun collect(adapter: RepositoryListAdapter) {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect {
+                    when (it) {
+                        is Resource.Success -> adapter.submitList(it.data)
+                        is Resource.Failed -> showDialog(
+                            it.errorMessage ?: getString(R.string.if_error_when_search)
+                        )
+                        is Resource.Empty -> {}
+                    }
+                }
             }
         }
     }
