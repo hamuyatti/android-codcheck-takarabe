@@ -74,9 +74,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 if (editText.length() == 0) {
                     showDialog(getString(R.string.no_input_text))
                 } else if (action == EditorInfo.IME_ACTION_SEARCH) {
-                    editText.text.toString().let {
-                        viewModel.searchResults(it)
-                    }
+                    viewModel.searchResults(editText.text.toString())
                     return@setOnEditorActionListener true
                 }
                 return@setOnEditorActionListener false

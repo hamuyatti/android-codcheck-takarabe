@@ -25,7 +25,7 @@ class SearchViewModel @Inject constructor(
     val state = searchRepository.state
 
     fun searchResults(inputText: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch() {
             searchRepository.fetchRepository(searchText = inputText)
             _lastSearchDate.postValue(Date())
         }
