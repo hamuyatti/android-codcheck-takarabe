@@ -22,6 +22,7 @@ import jp.co.yumemi.android.code_check.entity.RepositoryInfo
 import jp.co.yumemi.android.code_check.entity.Resource
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.IOException
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -92,9 +93,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 viewModel.state.collect {
                     when (it) {
                         is Resource.Success -> adapter.submitList(it.data)
-                        is Resource.Failed -> showDialog(
-                            it.errorMessage ?: getString(R.string.if_error_when_search)
-                        )
+                        is Resource.Failed -> handleError(it.throwable)
                         is Resource.Empty -> {}
                     }
                 }
@@ -111,6 +110,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun logLastSearchDate() {
         viewModel.lastSearchDate.observe(viewLifecycleOwner) {
             Timber.tag(getString(R.string.searching_time)).d("$it")
+        }
+    }
+
+    private fun handleError(throwable: Throwable) {
+        when (throwable) {
+            is IOException -> {
+                showDialog(getString(R.string.if_io_exception))
+            }
+            else -> {
+                showDialog(getString(R.string.if_error_when_search))
+            }
         }
     }
 

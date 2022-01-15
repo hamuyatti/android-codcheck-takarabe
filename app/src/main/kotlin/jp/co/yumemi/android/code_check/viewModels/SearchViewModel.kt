@@ -26,7 +26,7 @@ class SearchViewModel @Inject constructor(
 
     fun searchResults(inputText: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            searchRepository.fetchRepository(inputText = inputText)
+            searchRepository.fetchRepository(searchText = inputText)
             _lastSearchDate.postValue(Date())
         }
     }

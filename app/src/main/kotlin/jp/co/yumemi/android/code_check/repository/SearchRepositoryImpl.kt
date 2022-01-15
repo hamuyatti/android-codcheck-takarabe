@@ -35,6 +35,10 @@ class SearchRepositoryImpl(private val api: Api) : SearchRepository {
                 }
                 _state.value = Resource.Success(items)
             }
+        }catch (e:IOException){
+            _state.value = Resource.Failed(e)
+        }catch (e:Exception) {
+            _state.value = Resource.Failed(e)
         }
     }
 }
