@@ -1,38 +1,34 @@
 /*
  * Copyright © 2021 YUMEMI Inc. All rights reserved.
  */
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.viewModels
 
-import android.app.Application
+import android.content.Context
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import jp.co.yumemi.android.code_check.R
 import kotlinx.coroutines.*
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.lang.Exception
 import java.util.*
-import javax.inject.Inject
 
-@HiltViewModel
-class OneViewModel @Inject constructor(
-    private val application: Application
-) : ViewModel() {
+class SearchViewModel() : ViewModel() {
 
     private val _lastSearchDate = MutableLiveData<Date>()
     val lastSearchDate: LiveData<Date>
         get() = _lastSearchDate
 
-    private val _repositoryList = MutableLiveData<List<Item>>()
-    val repositoryList: LiveData<List<Item>>
+    private val _repositoryList = MutableLiveData<List<Repository>>()
+    val repositoryList: LiveData<List<Repository>>
         get() = _repositoryList
 
     private val _errorLD = MutableLiveData(false)
@@ -52,7 +48,7 @@ class OneViewModel @Inject constructor(
                     }
                 val jsonBody = JSONObject(response.receive<String>())
                 val jsonItems = jsonBody.optJSONArray("items")
-                val items = mutableListOf<Item>()
+                val items = mutableListOf<Repository>()
 
                 jsonItems?.let {
                     for (i in 0 until jsonItems.length()) {
@@ -66,13 +62,10 @@ class OneViewModel @Inject constructor(
                         val openIssuesCount = jsonItem.optLong("open_issues_count")
 
                         items.add(
-                            Item(
+                            Repository(
                                 name = name,
                                 ownerIconUrl = ownerIconUrl,
-                                language = application.getString(
-                                    R.string.written_language,
-                                    language
-                                ),
+                                language = language,
                                 stargazersCount = stargazersCount,
                                 watchersCount = watchersCount,
                                 forksCount = forksCount,
@@ -92,7 +85,7 @@ class OneViewModel @Inject constructor(
 }
 
 @Parcelize
-data class Item(
+data class Repository(
     val name: String,
     val ownerIconUrl: String?,
     val language: String,
