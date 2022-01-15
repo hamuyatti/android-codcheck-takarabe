@@ -55,7 +55,7 @@ class ItemViewHolder(
 
 class ResultDiffCallBack : DiffUtil.ItemCallback<RepositoryInfo>() {
     override fun areItemsTheSame(oldItem: RepositoryInfo, newItem: RepositoryInfo): Boolean {
-        return oldItem.name == newItem.name
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: RepositoryInfo, newItem: RepositoryInfo): Boolean {

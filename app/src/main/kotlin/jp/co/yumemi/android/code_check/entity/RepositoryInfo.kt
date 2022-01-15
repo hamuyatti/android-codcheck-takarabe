@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RepositoryInfo(
     @SerialName("name") val name: String,
+    @SerialName("id") val id: Int,
     @SerialName("language") val language: String?,
     @SerialName("owner") val owner: Owner,
     @SerialName("stargazers_count") val stargazersCount: Long,
