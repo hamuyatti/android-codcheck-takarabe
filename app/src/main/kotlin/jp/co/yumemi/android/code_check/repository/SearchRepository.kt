@@ -8,5 +8,4 @@ import org.json.JSONArray
 interface SearchRepository {
     val state: StateFlow<Resource<List<RepositoryInfo>>>
     suspend fun fetchRepository(searchText: String)
-    fun makeRepositoryInfo(jsonItems: JSONArray?):List<RepositoryInfo>
 }

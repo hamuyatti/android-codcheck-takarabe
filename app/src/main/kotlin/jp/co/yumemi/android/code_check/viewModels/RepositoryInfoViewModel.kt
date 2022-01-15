@@ -36,7 +36,7 @@ class RepositoryInfoViewModel @Inject constructor(
         companion object {
             fun from(context: Context, repositoryInfo: RepositoryInfo) = RenderData(
                 repositoryInfo.name,
-                repositoryInfo.ownerIconUrl,
+                repositoryInfo.owner.ownerIconUrl,
                 checkIsNull(context = context, text = repositoryInfo.language),
                 context.getString(R.string.addition_stars, repositoryInfo.stargazersCount),
                 context.getString(R.string.addition_watchers, repositoryInfo.watchersCount),
