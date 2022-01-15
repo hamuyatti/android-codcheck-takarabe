@@ -9,6 +9,8 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +18,9 @@ import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.viewModels.Repository
 import jp.co.yumemi.android.code_check.viewModels.SearchViewModel
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchBinding
+import jp.co.yumemi.android.code_check.entity.Resource
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -86,9 +91,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             if (it) {
                 showDialog(getString(R.string.if_error_when_search))
             }
-        }
-        viewModel.repositoryList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
         }
     }
 
