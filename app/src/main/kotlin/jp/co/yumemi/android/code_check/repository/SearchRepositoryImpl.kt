@@ -31,23 +31,15 @@ class SearchRepositoryImpl : SearchRepository {
             jsonItems?.let {
                 for (i in 0 until jsonItems.length()) {
                     val jsonItem = jsonItems.optJSONObject(i)
-                    val name = jsonItem.optString("full_name")
-                    val ownerIconUrl = jsonItem.optJSONObject("owner")?.optString("avatar_url")
-                    val language = jsonItem.optString("language")
-                    val stargazersCount = jsonItem.optLong("stargazers_count")
-                    val watchersCount = jsonItem.optLong("watchers_count")
-                    val forksCount = jsonItem.optLong("forks_count")
-                    val openIssuesCount = jsonItem.optLong("open_issues_count")
-
                     items.add(
                         Repository(
-                            name = name,
-                            ownerIconUrl = ownerIconUrl,
-                            language = language,
-                            stargazersCount = stargazersCount,
-                            watchersCount = watchersCount,
-                            forksCount = forksCount,
-                            openIssuesCount = openIssuesCount
+                            name = jsonItem.optString("full_name"),
+                            ownerIconUrl = jsonItem.optJSONObject("owner")?.optString("avatar_url"),
+                            language = jsonItem.optString("language"),
+                            stargazersCount = jsonItem.optLong("stargazers_count"),
+                            watchersCount = jsonItem.optLong("watchers_count"),
+                            forksCount = jsonItem.optLong("forks_count"),
+                            openIssuesCount = jsonItem.optLong("open_issues_count")
                         )
                     )
                 }

@@ -39,7 +39,6 @@ class SearchViewModel @Inject constructor(
 
     val state = searchRepository.state
 
-    // 検索結果
     fun searchResults(inputText: String) {
         _errorLD.value = false
         viewModelScope.launch(Dispatchers.IO) {
