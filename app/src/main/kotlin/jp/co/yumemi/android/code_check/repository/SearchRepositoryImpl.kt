@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
@@ -19,26 +20,7 @@ class SearchRepositoryImpl(private val api: Api) : SearchRepository {
         withContext(Dispatchers.IO) {
             try {
                 val jsonItems = api.fetchRepository(searchText)
-                val items = mutableListOf<RepositoryInfo>()
-
-                jsonItems?.let {
-                    for (i in 0 until jsonItems.length()) {
-                        val jsonItem = jsonItems.optJSONObject(i)
-                        items.add(
-                            RepositoryInfo(
-                                name = jsonItem.optString("full_name"),
-                                ownerIconUrl = jsonItem.optJSONObject("owner")
-                                    ?.optString("avatar_url"),
-                                language = jsonItem.optString("language"),
-                                stargazersCount = jsonItem.optLong("stargazers_count"),
-                                watchersCount = jsonItem.optLong("watchers_count"),
-                                forksCount = jsonItem.optLong("forks_count"),
-                                openIssuesCount = jsonItem.optLong("open_issues_count")
-                            )
-                        )
-                    }
-                    _state.value = Resource.Success(items)
-                }
+                _state.value = Resource.Success(makeRepositoryInfo(jsonItems))
             } catch (e: IOException) {
                 _state.value = Resource.Failed(e)
             } catch (e: Exception) {
@@ -46,4 +28,26 @@ class SearchRepositoryImpl(private val api: Api) : SearchRepository {
             }
         }
     }
+
+    override fun makeRepositoryInfo(jsonItems: JSONArray?): List<RepositoryInfo> {
+        val items = mutableListOf<RepositoryInfo>()
+        jsonItems?: return emptyList()
+        for (i in 0 until jsonItems.length()) {
+            val jsonItem = jsonItems.optJSONObject(i)
+            items.add(
+                RepositoryInfo(
+                    name = jsonItem.optString("full_name"),
+                    ownerIconUrl = jsonItem.optJSONObject("owner")
+                        ?.optString("avatar_url"),
+                    language = jsonItem.optString("language"),
+                    stargazersCount = jsonItem.optLong("stargazers_count"),
+                    watchersCount = jsonItem.optLong("watchers_count"),
+                    forksCount = jsonItem.optLong("forks_count"),
+                    openIssuesCount = jsonItem.optLong("open_issues_count")
+                )
+            )
+        }
+        return items
+    }
+
 }
