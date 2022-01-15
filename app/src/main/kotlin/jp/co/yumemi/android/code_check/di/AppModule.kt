@@ -1,5 +1,6 @@
 package jp.co.yumemi.android.code_check.di
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -8,6 +9,12 @@ import jp.co.yumemi.android.code_check.api.Api
 import jp.co.yumemi.android.code_check.api.ApiImpl
 import jp.co.yumemi.android.code_check.repository.SearchRepository
 import jp.co.yumemi.android.code_check.repository.SearchRepositoryImpl
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -20,4 +27,25 @@ object AppModule {
     @Provides
     @Singleton
     fun provideApi(): Api = ApiImpl()
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .build()
+    }
+
+    @ExperimentalSerializationApi
+    @Provides
+    @Singleton
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient
+    ): Retrofit {
+        val contentType = "application/json".toMediaType()
+        return Retrofit.Builder()
+            .baseUrl("https://api.github.com")
+            .client(okHttpClient)
+            .addConverterFactory(Json.asConverterFactory(contentType))
+            .build()
+    }
 }
