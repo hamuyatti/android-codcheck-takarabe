@@ -5,11 +5,18 @@ import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import jp.co.yumemi.android.code_check.entity.Resource
 import jp.co.yumemi.android.code_check.viewModels.Repository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import org.json.JSONObject
 
-class SearchRepositoryImpl:SearchRepository {
-    override suspend fun fetchRepository(inputText:String) {
+class SearchRepositoryImpl : SearchRepository {
+
+    private val _state = MutableStateFlow<Resource<List<Repository>>>(Resource.Empty)
+    override val state: StateFlow<Resource<List<Repository>>> = _state
+
+    override suspend fun fetchRepository(inputText: String) {
         try {
             val client = HttpClient(Android)
             val response: HttpResponse =
@@ -44,10 +51,10 @@ class SearchRepositoryImpl:SearchRepository {
                         )
                     )
                 }
-
+                _state.value = Resource.Success(items)
             }
-        }(e: Exception) {
-            _errorLD.postValue(true)
+        } catch (e: Exception) {
+
         }
     }
 }
