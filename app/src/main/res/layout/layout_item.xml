@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="repositoryInfo"
             type="jp.co.yumemi.android.code_check.entity.RepositoryInfo" />
@@ -33,9 +34,11 @@
         <TextView
             android:id="@+id/repositoryNameView"
             android:layout_width="0dp"
-            android:layout_height=""
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{repositoryInfo.name}"
             android:textColor="@color/black"
             android:textSize="12sp"
