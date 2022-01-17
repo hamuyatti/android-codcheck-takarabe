@@ -56,7 +56,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun setUpRecyclerView(adapter: RepositoryListAdapter) {
-        val layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = GridLayoutManager(requireContext(),3,RecyclerView.VERTICAL,false)
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), layoutManager.orientation)
         binding.recyclerView.also {
