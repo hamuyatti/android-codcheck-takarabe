@@ -22,12 +22,21 @@ class SearchViewModel @Inject constructor(
     val lastSearchDate: LiveData<Date>
         get() = _lastSearchDate
 
+    private val _isVisible = MutableLiveData(false)
+    val isVisible: LiveData<Boolean>
+        get() = _isVisible
+
     val state = searchRepository.state
 
     fun searchResults(inputText: String) {
-        viewModelScope.launch() {
+        _isVisible.value = true
+        viewModelScope.launch{
             searchRepository.fetchRepository(searchText = inputText)
             _lastSearchDate.postValue(Date())
         }
+    }
+
+    fun setVisible(isVisible: Boolean){
+        _isVisible.value = isVisible
     }
 }

@@ -47,7 +47,7 @@ class ItemViewHolder(
     }
 
     fun bind(item: RepositoryInfo) {
-        binding.repository = item
+        binding.repositoryInfo = item
         binding.onClickLister = clickListener
     }
 }

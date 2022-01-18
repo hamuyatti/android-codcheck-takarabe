@@ -35,6 +35,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.vm = viewModel
         val adapter = initializeAdapter()
         setUpRecyclerView(adapter)
         collect(adapter)
@@ -56,7 +58,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun setUpRecyclerView(adapter: RepositoryListAdapter) {
-        val layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.VERTICAL, false)
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), layoutManager.orientation)
         binding.recyclerView.also {
@@ -89,6 +91,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect {
+                    viewModel.setVisible(false)
                     when (it) {
                         is Resource.Success -> adapter.submitList(it.data)
                         is Resource.Failed -> handleError(it.throwable)
