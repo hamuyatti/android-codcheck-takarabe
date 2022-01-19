@@ -10,7 +10,8 @@ import retrofit2.http.Query
 interface Api {
     @GET("/search/repositories")
     suspend fun findRepositories(
-        @Query("q") query: String
+        @Query("q") query: String,
+        @Query("sort") sort: String
     ): Response<Search>
 }
 

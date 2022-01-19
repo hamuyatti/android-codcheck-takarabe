@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -59,13 +60,20 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun setUpRecyclerView(adapter: RepositoryListAdapter) {
         val layoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.VERTICAL, false)
-        val dividerItemDecoration =
-            DividerItemDecoration(requireContext(), layoutManager.orientation)
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
         binding.recyclerView.also {
             it.layoutManager = layoutManager
             it.addItemDecoration(dividerItemDecoration)
             it.adapter = adapter
         }
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                (binding.recyclerView.layoutManager as GridLayoutManager).scrollToPositionWithOffset(
+                    positionStart,
+                    0
+                )
+            }
+        })
     }
 
     private fun setUpInputTextLayout() {

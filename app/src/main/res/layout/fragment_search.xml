@@ -22,7 +22,7 @@
             android:layout_margin="12dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="8dp"
-            app:layout_constraintBottom_toTopOf="@id/recyclerView"
+            app:layout_constraintBottom_toTopOf="@id/sort_segment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -57,14 +57,57 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <info.hoang8f.android.segmented.SegmentedGroup
+            android:id="@+id/sort_segment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/searchBar"
+            app:sc_checked_text_color="@color/white"
+            app:sc_tint_color="@color/light_blue">
+
+            <RadioButton
+                android:id="@+id/updated"
+                style="@style/RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/light_blue"
+                android:onClick="@{() -> vm.onClickUpdatedRepository()}"
+                android:text="@string/new_update" />
+
+            <RadioButton
+                android:id="@+id/popular"
+                style="@style/RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/light_blue"
+                android:onClick="@{() -> vm.onClickPopularRepository()}"
+                android:text="@string/reaction" />
+
+            <RadioButton
+                android:id="@+id/not_updated"
+                style="@style/RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/light_blue"
+                android:onClick="@{() -> vm.onClickNotUpdatedRepository()}"
+                android:text="@string/old_update" />
+
+        </info.hoang8f.android.segmented.SegmentedGroup>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchBar" />
+            app:layout_constraintTop_toBottomOf="@id/sort_segment" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
