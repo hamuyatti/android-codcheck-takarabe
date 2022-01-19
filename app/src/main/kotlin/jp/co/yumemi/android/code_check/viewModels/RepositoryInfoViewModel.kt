@@ -34,21 +34,21 @@ class RepositoryInfoViewModel @Inject constructor(
         val openIssuesCountText: String,
     ) {
         companion object {
-            fun from(context: Context, repositoryInfo: RepositoryInfo) = RenderData(
+            fun from(application: Application, repositoryInfo: RepositoryInfo) = RenderData(
                 repositoryInfo.name,
                 repositoryInfo.owner.ownerIconUrl,
-                checkIsNull(context = context, text = repositoryInfo.language),
-                context.getString(R.string.addition_stars, repositoryInfo.stargazersCount),
-                context.getString(R.string.addition_watchers, repositoryInfo.watchersCount),
-                context.getString(R.string.addition_forks, repositoryInfo.forksCount),
-                context.getString(R.string.addition_openIssuesCount, repositoryInfo.openIssuesCount)
+                checkIsNull(application = application, text = repositoryInfo.language),
+                application.getString(R.string.addition_stars, repositoryInfo.stargazersCount),
+                application.getString(R.string.addition_watchers, repositoryInfo.watchersCount),
+                application.getString(R.string.addition_forks, repositoryInfo.forksCount),
+                application.getString(R.string.addition_openIssuesCount, repositoryInfo.openIssuesCount)
             )
 
-            private fun checkIsNull(context: Context, text: String?): String {
+            private fun checkIsNull(application: Application, text: String?): String {
                 return if (text == null) {
-                    context.getString(R.string.not_set_language)
+                    application.getString(R.string.not_set_language)
                 } else {
-                    context.getString(
+                    application.getString(
                         R.string.written_language,
                         text
                     )
