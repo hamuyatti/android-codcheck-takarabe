@@ -26,17 +26,36 @@ class SearchViewModel @Inject constructor(
     val isVisible: LiveData<Boolean>
         get() = _isVisible
 
+    private val sortKind = MutableLiveData(SORT_UPDATED)
+
     val state = searchRepository.state
 
-    fun searchResults(inputText: String) {
+    fun fetchRepositories(inputText: String) {
         _isVisible.value = true
         viewModelScope.launch{
-            searchRepository.fetchRepository(searchText = inputText)
+            searchRepository.fetchRepositories(searchText = inputText, sort = sortKind.value?:SORT_UPDATED)
             _lastSearchDate.postValue(Date())
         }
     }
 
+    fun onClickUpdatedRepository(){
+        sortKind.value = SORT_UPDATED
+    }
+    fun onClickNotUpdatedRepository(){
+        sortKind.value = SORT_NOT_UPDATED
+
+    }
+    fun onClickPopularRepository(){
+        sortKind.value = SORT_POPULAR
+    }
+
     fun setVisible(isVisible: Boolean){
         _isVisible.value = isVisible
+    }
+
+    companion object{
+        const val SORT_UPDATED = "updated"
+        const val SORT_NOT_UPDATED = "updated-asc"
+        const val SORT_POPULAR = "reactions"
     }
 }

@@ -15,4 +15,8 @@
     <string name="searching_time">検索した日時</string>
 
     <string name="not_set_language">言語が指定されていません</string>
+
+    <string name="new_update">活発</string>
+    <string name="old_update">ほったらかし</string>
+    <string name="reaction">反応たくさん</string>
 </resources>

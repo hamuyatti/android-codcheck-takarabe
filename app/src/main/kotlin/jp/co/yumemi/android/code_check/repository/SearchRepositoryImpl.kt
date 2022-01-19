@@ -15,10 +15,15 @@ class SearchRepositoryImpl(private val api: Api) : SearchRepository {
     private val _state = MutableStateFlow<Resource<List<RepositoryInfo>>>(Resource.Empty)
     override val state: StateFlow<Resource<List<RepositoryInfo>>> = _state
 
-    override suspend fun fetchRepository(searchText: String) {
+    override suspend fun fetchRepositories(searchText: String, sort: String) {
         withContext(Dispatchers.IO) {
             try {
-                _state.value = Resource.Success(asyncFetch { api.findRepositories(query = searchText)}.items)
+                _state.value = Resource.Success(asyncFetch {
+                    api.fetchRepositories(
+                        query = searchText,
+                        sort = sort
+                    )
+                }.items)
             } catch (e: IOException) {
                 _state.value = Resource.Failed(e)
             } catch (e: Exception) {

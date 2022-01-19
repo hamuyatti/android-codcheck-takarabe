@@ -59,13 +59,20 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun setUpRecyclerView(adapter: RepositoryListAdapter) {
         val layoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.VERTICAL, false)
-        val dividerItemDecoration =
-            DividerItemDecoration(requireContext(), layoutManager.orientation)
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
         binding.recyclerView.also {
             it.layoutManager = layoutManager
             it.addItemDecoration(dividerItemDecoration)
             it.adapter = adapter
         }
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                (binding.recyclerView.layoutManager as GridLayoutManager).scrollToPositionWithOffset(
+                    positionStart,
+                    0
+                )
+            }
+        })
     }
 
     private fun setUpInputTextLayout() {
@@ -76,7 +83,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 if (editText.length() == 0) {
                     showDialog(getString(R.string.no_input_text))
                 } else if (action == EditorInfo.IME_ACTION_SEARCH) {
-                    viewModel.searchResults(editText.text.toString())
+                    viewModel.fetchRepositories(editText.text.toString())
                     return@setOnEditorActionListener true
                 }
                 return@setOnEditorActionListener false

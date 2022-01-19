@@ -90,5 +90,8 @@ dependencies {
 
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    //Segment Control
+    implementation "info.hoang8f:android-segmented:1.0.6"
 }
 
