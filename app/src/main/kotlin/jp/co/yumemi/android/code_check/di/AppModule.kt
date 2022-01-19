@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import jp.co.yumemi.android.code_check.api.Api
+import jp.co.yumemi.android.code_check.webApi.Api
 import jp.co.yumemi.android.code_check.repository.SearchRepository
 import jp.co.yumemi.android.code_check.repository.SearchRepositoryImpl
 import kotlinx.serialization.ExperimentalSerializationApi

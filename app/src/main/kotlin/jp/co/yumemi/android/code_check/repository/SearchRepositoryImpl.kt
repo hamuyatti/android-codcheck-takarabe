@@ -1,6 +1,6 @@
 package jp.co.yumemi.android.code_check.repository
 
-import jp.co.yumemi.android.code_check.api.Api
+import jp.co.yumemi.android.code_check.webApi.Api
 import jp.co.yumemi.android.code_check.entity.RepositoryInfo
 import jp.co.yumemi.android.code_check.entity.Resource
 import jp.co.yumemi.android.code_check.utils.asyncFetch

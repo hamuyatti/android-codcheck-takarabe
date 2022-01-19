@@ -38,6 +38,9 @@ android {
         viewBinding true
         dataBinding true
     }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
 }
 
 dependencies {
@@ -60,6 +63,7 @@ dependencies {
 
     //Hilt
     implementation "com.google.dagger:hilt-android:2.40.5"
+    implementation 'androidx.test:core-ktx:1.4.0'
     kapt "com.google.dagger:hilt-android-compiler:2.40.5"
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
@@ -93,5 +97,13 @@ dependencies {
 
     //Segment Control
     implementation "info.hoang8f:android-segmented:1.0.6"
+
+    //test
+    testImplementation 'io.mockk:mockk:1.12.1'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
+    testImplementation "org.robolectric:robolectric:4.7.3"
+
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
