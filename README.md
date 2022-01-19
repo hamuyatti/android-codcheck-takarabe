@@ -13,13 +13,12 @@
 ### 環境
 
 - IDE：Android Studio Arctic Fox | 2020.3.1 Patch 1
-- Kotlin：1.5.31
+- Kotlin：1.6.10
 - Java：11
-- Gradle：7.0.1
+- Gradle：7.0.3
 - minSdk：23
 - targetSdk：31
 
-※ ライブラリの利用はオープンソースのものに限ります。
 
 ### 動作
 
@@ -27,19 +26,10 @@
 2. GitHub API（`search/repositories`）でリポジトリを検索し、結果一覧を概要（リポジトリ名）で表示
 3. 特定の結果を選択したら、該当リポジトリの詳細（リポジトリ名、オーナーアイコン、プロジェクト言語、Star 数、Watcher 数、Fork 数、Issue 数）を表示
 
-## 課題取り組み方法
+## 変更点
+画面上の変更点として、検索中にアニメーションを追加した点と、最近更新されているかいないか、スターやコメントをどれだけもらえているかといった内容でソートを行えるようにした点があります。
 
-Issues を確認した上、本プロジェクトを [**Duplicate** してください](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository)（Fork しないようにしてください。必要ならプライベートリポジトリにしても大丈夫です）。今後のコミットは全てご自身のリポジトリで行ってください。
+<img src = "https://user-images.githubusercontent.com/76822642/150087969-ddd0cbe9-876e-4487-9885-4d277a7345f5.jpg" width = "200dp">
+<img src = "https://user-images.githubusercontent.com/76822642/150087992-850f3e3b-a457-4d05-a625-91fcbaffac9d.jpg" width = "200dp">
 
-コードチェックの課題 Issue は全て [`課題`](https://github.com/yumemi-inc/android-engineer-codecheck/milestone/1) Milestone がついており、難易度に応じて Label が [`初級`](https://github.com/yumemi-inc/android-engineer-codecheck/issues?q=is%3Aopen+is%3Aissue+label%3A初級+milestone%3A課題)、[`中級`](https://github.com/yumemi-inc/android-engineer-codecheck/issues?q=is%3Aopen+is%3Aissue+label%3A中級+milestone%3A課題+) と [`ボーナス`](https://github.com/yumemi-inc/android-engineer-codecheck/issues?q=is%3Aopen+is%3Aissue+label%3Aボーナス+milestone%3A課題+) に分けられています。課題の必須／選択は下記の表とします。
 
-|   | 初級 | 中級 | ボーナス
-|--:|:--:|:--:|:--:|
-| 新卒／未経験者 | 必須 | 選択 | 選択 |
-| 中途／経験者 | 必須 | 必須 | 選択 |
-
-課題が完成したら、リポジトリのアドレスを教えてください。
-
-## 参考記事
-
-提出された課題の評価ポイントに関しては、[こちらの記事](https://qiita.com/blendthink/items/aa70b8b3106fb4e3555f)に詳しく書かれてありますので、ぜひご覧ください。
