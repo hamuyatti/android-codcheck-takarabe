@@ -30,10 +30,10 @@ class SearchViewModel @Inject constructor(
 
     val state = searchRepository.state
 
-    fun searchResults(inputText: String) {
+    fun fetchRepositories(inputText: String) {
         _isVisible.value = true
         viewModelScope.launch{
-            searchRepository.fetchRepository(searchText = inputText, sort = sortKind.value?:SORT_UPDATED)
+            searchRepository.fetchRepositories(searchText = inputText, sort = sortKind.value?:SORT_UPDATED)
             _lastSearchDate.postValue(Date())
         }
     }

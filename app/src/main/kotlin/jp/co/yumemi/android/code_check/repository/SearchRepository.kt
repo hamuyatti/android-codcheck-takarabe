@@ -8,5 +8,5 @@ import org.json.JSONArray
 
 interface SearchRepository {
     val state: StateFlow<Resource<List<RepositoryInfo>>>
-    suspend fun fetchRepository(searchText: String,sort:String = SORT_UPDATED)
+    suspend fun fetchRepositories(searchText: String, sort:String = SORT_UPDATED)
 }

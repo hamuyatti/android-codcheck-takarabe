@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -84,7 +83,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 if (editText.length() == 0) {
                     showDialog(getString(R.string.no_input_text))
                 } else if (action == EditorInfo.IME_ACTION_SEARCH) {
-                    viewModel.searchResults(editText.text.toString())
+                    viewModel.fetchRepositories(editText.text.toString())
                     return@setOnEditorActionListener true
                 }
                 return@setOnEditorActionListener false
